@@ -1,0 +1,6 @@
+numpy
+pytest
+# for golden generation
+torch
+torchtune
+torchao
