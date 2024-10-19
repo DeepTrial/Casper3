@@ -23,20 +23,20 @@ class TestReduceMean:
             intermediate_dtype=dtype).forward(data, axes = axes)
         golden = torch.mean(torch.from_numpy(data), keepdim=keep_dim>0, dim = axes).numpy()
         
-        return np.absolute(ret - golden)
+        return ret,golden
 
     def test_case_1(self):
         args = {
-            'data':np.random.uniform(low=-10,high=10, size=(1,1024,3584)).astype(np.float16),
+            'data':np.random.uniform(low=-10, high=10, size=(1,1024,3584)).astype(np.float32),
             'axes': (2,),
             'keepdims': 1,
             'dtype':np.float64,
             'noop_with_empty_axes':0
         }
-        diff = self.base_test_func(args)
-        max_diff = np.max(diff)
-        avg_diff = np.mean(diff)
-        print(max_diff, avg_diff)
+        ret, golden = self.base_test_func(args)
+        compare_ret = np.isclose(ret, golden, rtol=1e-5, atol=1e-8, equal_nan=True)
+        fail_rate = 1 - compare_ret.sum() / np.prod(compare_ret.shape)
+        assert fail_rate < 0.01
     
 
 if __name__=="__main__":
