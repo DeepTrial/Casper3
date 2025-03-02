@@ -4,3 +4,4 @@ pytest
 torch
 torchtune
 torchao
+numba

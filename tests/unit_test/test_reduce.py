@@ -2,9 +2,9 @@ import os
 import sys
 import numpy as np 
 import torch
-
+import time
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..'))
-from kernel.reduce_interface import ReduceMean
+from kernel.reduce import ReduceMean
 
 np.random.seed(123456)
 
